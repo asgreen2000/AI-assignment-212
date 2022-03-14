@@ -66,7 +66,7 @@ class BreadthFirstSearch(SearchAlgo):
         queue = Util.Queue()
 
         front_node = TrackNode(init_state, count_invalid, [], rows_track, cols_track, -1)
-
+        
         queue.push(front_node)
 
         while queue.empty() == False:
@@ -80,12 +80,16 @@ class BreadthFirstSearch(SearchAlgo):
             cols_track = front_node.cols_track
             # calculate next row index
             row_idx = front_node.row_idx + 1
-
+            
             if count == 0:
+                
                 return path
+
             if row_idx == n:
                 continue
 
+            if row_idx == n - 1:
+                print(path, count)
             
             new_node = TrackNode(state, count, path, rows_track, cols_track, row_idx)
             
