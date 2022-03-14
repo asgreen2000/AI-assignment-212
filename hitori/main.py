@@ -22,16 +22,19 @@ if __name__ == '__main__':
 
     fileName = "input.txt"
     input = readFile(DIR_PATH + fileName)
-    n = str(input[0][0])
-    grid = functools.reduce(lambda res, cur: res + [cur.split(' ')], input[1:], [])
+    n = int(input[0][0])
+    grid = functools.reduce(lambda res, cur: res + 
+    [[int(i) for i in cur.split(' ')]]
+    , input[1:], [])
     
     # Hitori game
     hitori = Hitori(grid, n) 
     dfs = DepthFirstSearch()
     a_star = AStarSearch()
-    
+    bfs = BreadthFirstSearch()
+
     # let Hitori call solve method of dfs
-    solution = dfs.let_me_solve(hitori)
+    solution = bfs.let_me_solve(hitori)
 
     print(solution)
 
