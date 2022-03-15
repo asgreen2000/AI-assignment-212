@@ -45,6 +45,12 @@ if __name__ == '__main__':
     end = time.time()
     print("Time: ",end - start)
     
+    print("Solution: ",solution)
+
+    start = time.time()
+    solution = bfs.let_me_solve(tents)
+    end = time.time()
+    print("Time: ",end - start)
     
     print("Solution: ",solution)
 

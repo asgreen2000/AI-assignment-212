@@ -122,15 +122,18 @@ class AStarSearch(SearchAlgo):
             
             frontier = open_queue.pop()
             state = frontier.state
-           
+            
             if tents.is_goal_state(state):
                 return state
             
-            
+            print(state)
             nodes = frontier.expand_node(tents)
 
             for node in nodes:
-                open_queue.push(node)
+                str_state = str(node.state)
+                if closed.count(str_state) == 0:
+                    open_queue.push(node)
+                    closed += [str_state]
                     
                 
         
