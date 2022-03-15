@@ -19,6 +19,7 @@ class TrackNode:
         self.state[row_idx][col_idx] = Tents.NOTHING
 
     def expand_node(self, tents):
+
             #find first UNSET cell
             size = tents.size
             for row_idx in range(size):
@@ -29,6 +30,7 @@ class TrackNode:
                         first_child = type(self)(self.state, self.trees)
                         first_child.tents_at(row_idx, col_idx)
                         
+                        
                         if tents.is_legal_state(first_child.state):
                             
                             res += [first_child]
@@ -36,6 +38,7 @@ class TrackNode:
                         second_child = type(self)(self.state, self.trees)
                         second_child.nothing_at(row_idx, col_idx)
                         
+
                         if tents.is_legal_state(second_child.state):
                             res += [second_child]
 
@@ -126,9 +129,8 @@ class AStarSearch(SearchAlgo):
             if tents.is_goal_state(state):
                 return state
             
-            print(state)
             nodes = frontier.expand_node(tents)
-
+            
             for node in nodes:
                 str_state = str(node.state)
                 if closed.count(str_state) == 0:

@@ -83,7 +83,7 @@ class PriorityQueue(CustomList):
     def pop(self):
         front = self.items[0]
         self.items[0] = self.items[self.length - 1]
-        self.items = self.items[0 : self.length]
+        self.items = self.items[0 : self.length - 1]
         self.length -= 1
         self.rearrange_top_down(0)
 
