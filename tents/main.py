@@ -1,6 +1,7 @@
 from Tents import *
 from SearchAlgo import *
 import pathlib
+import time
 # importing functools for reduce()
 import functools
 
@@ -36,9 +37,12 @@ if __name__ == '__main__':
     dfs = DepthFirstSearch()
     a_star = AStarSearch()
     bfs = BreadthFirstSearch()
-    
-    #let Hitori call solve method of dfs
+
+    start = time.time()
     solution = bfs.let_me_solve(tents)
-    print(solution)
+    end = time.time()
+    print("Time: ",end - start)
+    
+    print("Solution: ",solution)
 
     

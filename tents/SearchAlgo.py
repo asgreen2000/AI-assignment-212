@@ -4,20 +4,6 @@ import Util
 # Visitor pattern is used for implementing these classes
 # let_me_solve reprensents visit method
 
-class TrackNode:
-
-    def __init__(self, forest, row_const, col_const, parent, tree_index):
-        self.forest = Util.clone_two_dimen_list(forest)
-        self.row_const = row_const + []
-        self.col_const = col_const + []
-        self.parent = parent
-        self.tree_index = tree_index + 0
-
-    def tents_at(self,row_idx, col_idx):
-        self.forest[row_idx][col_idx] = Tents.TENT
-        self.row_const[row_idx] -= 1
-        self.col_const[col_idx] -= 1
-
 class SearchAlgo:
     # this method return solution's path
     def solve(self, tents):
@@ -25,74 +11,81 @@ class SearchAlgo:
     def let_me_solve(self, tents):
         return tents.accept(self)
 
-class DepthFirstSearch(SearchAlgo):
-    
-    def solve(self, tents):
-        return []
-
 class AStarSearch(SearchAlgo):
     
     def solve(self, tents):
         return "A*"
 
 
+
+class DepthFirstSearch(SearchAlgo):
+    
+    def solve(self, tents):
+
+        pass
+
+
 class BreadthFirstSearch(SearchAlgo):
 
     def solve(self, tents):
-
-        forest = tents.forest
-        row_const = tents.row_const
-        col_const = tents.col_const
-        size = tents.size
-        trees = tents.generate_list_tree()
-
+        
         queue = Util.Queue()
+        state = tents.state
+        size = tents.size
+        frontier = Node(tents.state)
 
-        front_node = TrackNode(forest, row_const, col_const, None, 0)
-
-        queue.push(front_node)
+        queue.push(frontier)
 
         while queue.empty() == False:
             
-            tree = queue.pop()
-            tree_index = tree.tree_index
-            
-            forest = tree.forest
-            if tree_index >= len(trees):
-                return forest
-            row_idx = trees[tree_index][0]
-            col_idx = trees[tree_index][1]
-            row_const = tree.row_const
-            col_const = tree.col_const
-            
+            frontier = queue.pop()
+            state = frontier.state
+        
+            if tents.is_goal_state(state):
+                return state
+        
+            nodes = frontier.expand_node(tents)
+
+            for node in nodes:
+                queue.push(node)
             
 
-            if Tents.can_have_tents_at(forest, row_const, col_const, row_idx - 1, col_idx, size):
-                new_tent = TrackNode(forest, row_const, col_const, tree, tree_index + 1)
-                new_tent.tents_at(row_idx - 1, col_idx)
-                queue.push(new_tent)
-                
-            if Tents.can_have_tents_at(forest, row_const, col_const, row_idx + 1, col_idx, size):
-                
-                new_tent = TrackNode(forest, row_const, col_const, tree, tree_index + 1)
-                new_tent.tents_at(row_idx + 1, col_idx)
-                queue.push(new_tent)
-                
-            if Tents.can_have_tents_at(forest, row_const, col_const, row_idx, col_idx - 1, size):
-               
-                new_tent = TrackNode(forest, row_const, col_const, tree, tree_index + 1)
-                new_tent.tents_at(row_idx, col_idx - 1)
-                queue.push(new_tent)
-                
-
-            if Tents.can_have_tents_at(forest, row_const, col_const, row_idx, col_idx + 1, size):
-                
-                new_tent = TrackNode(forest, row_const, col_const, tree, tree_index + 1)
-                new_tent.tents_at(row_idx, col_idx + 1)
-                queue.push(new_tent)
-                
         return []
             
+class Node:
 
+    def __init__(self, state):
+        self.state = Util.deep_copy(state)
 
+    def tents_at(self,row_idx, col_idx):
+        self.state[row_idx][col_idx] = Tents.TENT
+    
+    def nothing_at(self, row_idx, col_idx):
+        self.state[row_idx][col_idx] = Tents.NOTHING
 
+    def expand_node(self, tents):
+        #find first empty cell
+        size = tents.size
+        for row_idx in range(size):
+            for col_idx in range(size):
+                if self.state[row_idx][col_idx] == Tents.EMPTY:
+
+                    res = []
+                    first_child = Node(self.state)
+                    first_child.tents_at(row_idx, col_idx)
+                    if str(self.state[1]) == "[1, 2, 3, 3, 3, 2]":
+                        print(self.state)
+                    if tents.is_legal_state(first_child.state):
+                        
+                        res += [first_child]
+                    
+                    second_child = Node(self.state)
+                    second_child.nothing_at(row_idx, col_idx)
+                    
+                    if tents.is_legal_state(second_child.state):
+                        res += [second_child]
+
+                    return res
+        
+        return []
+                    

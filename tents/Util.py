@@ -1,6 +1,6 @@
 
 
-def clone_two_dimen_list(l):
+def deep_copy(l):
     new_list = []
 
     for row in l:
