@@ -2,6 +2,7 @@ from Tents import *
 from SearchAlgo import *
 import pathlib
 import time
+from GUI import GUI
 # importing functools for reduce()
 import functools
 
@@ -34,14 +35,16 @@ if __name__ == '__main__':
     col_const = grid[n + 1]
     
     tents = Tents(forest, row_const, col_const, n)
+
     dfs = DepthFirstSearch()
     a_star = AStarSearch()
     bfs = BreadthFirstSearch()
 
     start = time.time()
-    solution = bfs.let_me_solve(tents)
+    solution = a_star.let_me_solve(tents)
     end = time.time()
     print("Time: ",end - start)
+    
     
     print("Solution: ",solution)
 

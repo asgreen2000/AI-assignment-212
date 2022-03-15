@@ -1,5 +1,5 @@
 class Tents:
-    EMPTY = 0
+    UNSET = 0
     TREE = 1
     TENT = 2
     NOTHING = 3
@@ -114,8 +114,7 @@ class Tents:
        
         
         return flag
-        
-
+ 
     @staticmethod
     def can_have_tents_at(state, row_const, col_const ,row_idx, col_idx, size):
         
@@ -123,7 +122,7 @@ class Tents:
         if row_idx < 0 or row_idx >= size or col_idx < 0 or col_idx >= size:
             return False
 
-        if state[row_idx][col_idx] != Tents.EMPTY:
+        if state[row_idx][col_idx] != Tents.UNSET:
             return False
         
 
