@@ -37,6 +37,6 @@ class GUI:
         pass
 
 
-gui = GUI([], "")
+# gui = GUI([], "")
 
-gui.init_game()
+# gui.init_game()
