@@ -136,6 +136,8 @@ class AStarSearch(SearchAlgo):
                 if closed.count(str_state) == 0:
                     open_queue.push(node)
                     closed += [str_state]
+                # because we are using priority queue built by Heap,
+                # so we don't need to carry about whether this node is in open_queue
                     
                 
         
