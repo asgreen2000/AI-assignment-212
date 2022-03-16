@@ -18,29 +18,23 @@ class TrackNode:
     def nothing_at(self, row_idx, col_idx):
         self.state[row_idx][col_idx] = Tents.NOTHING
 
-    def expand_node(self, tents):
+    def expand_node(self):
 
             #find first UNSET cell
-            size = tents.size
+            size = len(self.state) if self.state else 0
             for row_idx in range(size):
                 for col_idx in range(size):
                     if self.state[row_idx][col_idx] == Tents.UNSET:
 
                         res = []
                         first_child = type(self)(self.state, self.trees)
-                        first_child.tents_at(row_idx, col_idx)
-                        
-                        
-                        if tents.is_legal_state(first_child.state):
-                            
-                            res += [first_child]
-                        
+                        first_child.tents_at(row_idx, col_idx)  
+                        res += [first_child]
+                    
                         second_child = type(self)(self.state, self.trees)
                         second_child.nothing_at(row_idx, col_idx)
                         
-
-                        if tents.is_legal_state(second_child.state):
-                            res += [second_child]
+                        res += [second_child]
 
                         return res
             
@@ -129,11 +123,11 @@ class AStarSearch(SearchAlgo):
             if tents.is_goal_state(state):
                 return state
             
-            nodes = frontier.expand_node(tents)
+            nodes = frontier.expand_node()
             
             for node in nodes:
                 str_state = str(node.state)
-                if closed.count(str_state) == 0:
+                if tents.is_legal_state(node.state) and closed.count(str_state) == 0:
                     open_queue.push(node)
                     # closed += [str_state]
                 # because we are using priority queue built by Heap,
@@ -178,10 +172,11 @@ class BreadthFirstSearch(SearchAlgo):
             if tents.is_goal_state(state):
                 return state
             
-            nodes = frontier.expand_node(tents)
+            nodes = frontier.expand_node()
 
             for node in nodes:
-                queue.push(node)
+                if tents.is_legal_state(node.state):
+                    queue.push(node)
             
 
         return []
