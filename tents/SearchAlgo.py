@@ -66,7 +66,7 @@ class AStarSearch(SearchAlgo):
                 for number in row:
                     if number == Tents.TENT:
                         count += 1
-
+            
             return count
         
         def cal_h_value(self):
@@ -97,9 +97,13 @@ class AStarSearch(SearchAlgo):
             return len(self.trees) - count
 
 
+    def __init__(self):
+            self.visited = []
             
+          
     def compare(self, node_a, node_b):
-        return node_a.totcal_cost <= node_b.totcal_cost
+        return node_a.totcal_cost < node_b.totcal_cost
+        # return node_a.totcal_cost <= node_b.totcal_cost
 
     def solve(self, tents):
         
@@ -107,21 +111,24 @@ class AStarSearch(SearchAlgo):
         
         # track visited nodes
         closed = []
-
+        solution = []
         state = tents.state
         trees = tents.trees
 
         frontier = AStarSearch.Node(state, trees)
 
         open_queue.push(frontier)
-
+        count = 0
         while open_queue.empty() == False:
             
             frontier = open_queue.pop()
             state = frontier.state
+            count += 1
+            self.visited += [state]
             closed += [str(state)]
             if tents.is_goal_state(state):
-                return state
+               solution = state
+               break
             
             nodes = frontier.expand_node()
             
@@ -134,8 +141,8 @@ class AStarSearch(SearchAlgo):
                 # so we don't need to carry about whether this node is in open_queue
                     
                 
-        
-        return []
+        print(count)
+        return solution
 
 
 class DepthFirstSearch(SearchAlgo):
@@ -161,23 +168,24 @@ class BreadthFirstSearch(SearchAlgo):
         state = tents.state
         size = tents.size
         frontier = BreadthFirstSearch.Node(tents.state, tents.trees)
-
+        solution = []
         queue.push(frontier)
-
+        count = 0
         while queue.empty() == False:
             
             frontier = queue.pop()
             state = frontier.state
         
             if tents.is_goal_state(state):
-                return state
+                solution = state
+                break
             
             nodes = frontier.expand_node()
 
             for node in nodes:
                 if tents.is_legal_state(node.state):
                     queue.push(node)
-            
-
-        return []
+            count += 1
+        print(count)
+        return solution
                            
