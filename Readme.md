@@ -19,5 +19,5 @@ We can check this if we reach out to the leaf having the highest deep
 </p>
 <p>If we decide to set this cell empty, the cost of this action will be 0
 </p>
-<h3>Heuristuc fucntion: </h3> <p>is the combination of the number of the used tent (the cost of the path
+<h3>Heuristic function:: </h3> <p>is the combination of the number of the used tent (the cost of the path
  from the root to this) and the number of the remaining tents we need to place to pass this game</p>
