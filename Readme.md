@@ -14,10 +14,10 @@ We can check this if we reach out to the leaf having the highest deep
 <p>2D list</p>
 <h3>Legal move:</h3>
 <p>First, We choose the first empty cell</p>
-<p>If we place tent on this cell, this tent mustn't
+<p>If we place the tent on this cell, this tent mustn't
  touch other tents vertically or horizontally or even diagonally. The cost of this action will be 1
 </p>
 <p>If we decide to set this cell empty, the cost of this action will be 0
 </p>
-<h3>Heuristuc fucntion: </h3> <p>is the combine of the number of used tent (the cost of the path
- from root to this) and the number of remain tents we need to place to pass this game</p>
+<h3>Heuristuc fucntion: </h3> <p>is the combine of the number of the used tent (the cost of the path
+ from the root to this) and the number of the remaining tents we need to place to pass this game</p>
