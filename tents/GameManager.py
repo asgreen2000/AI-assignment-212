@@ -64,6 +64,8 @@ class GUI:
                         self.call_back(-1)
                     if event.key == pygame.K_RIGHT:
                         self.call_back(1)
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    self.call_back(0)
             self.display_data()
             
     def go_to_step(self, index):
@@ -79,13 +81,15 @@ class GameManager:
         
         
         self.list_data = list_data
-        self.GUI = GUI(init_state, title, self.display_all_data)
+        self.GUI = GUI(init_state, title, self.display_data)
         self.index = 0
         self.GUI.init_game()
          
-    def display_all_data(self, step):
+    def display_data(self, step):
         
-        if self.index + step < len(self.list_data) and self.index + step >= 0:
+        if step == 0:
+            self.GUI.update_data(self.list_data[len(self.list_data) - 1])
+        elif self.index + step < len(self.list_data) and self.index + step >= 0:
             self.index += step
             self.GUI.update_data(self.list_data[self.index])
             

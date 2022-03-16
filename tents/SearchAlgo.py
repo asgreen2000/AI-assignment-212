@@ -6,6 +6,9 @@ import Util
 
 class SearchAlgo:
     # this method return solution's path
+    def __init__(self):
+        self.visited = []
+            
     def solve(self, tents):
         pass
     def let_me_solve(self, tents):
@@ -97,9 +100,7 @@ class AStarSearch(SearchAlgo):
             return len(self.trees) - count
 
 
-    def __init__(self):
-            self.visited = []
-            
+    
           
     def compare(self, node_a, node_b):
         return node_a.totcal_cost < node_b.totcal_cost
@@ -123,7 +124,7 @@ class AStarSearch(SearchAlgo):
             
             frontier = open_queue.pop()
             state = frontier.state
-            count += 1
+      
             self.visited += [state]
             closed += [str(state)]
             if tents.is_goal_state(state):
@@ -141,7 +142,7 @@ class AStarSearch(SearchAlgo):
                 # so we don't need to carry about whether this node is in open_queue
                     
                 
-        print(count)
+    
         return solution
 
 
@@ -170,12 +171,12 @@ class BreadthFirstSearch(SearchAlgo):
         frontier = BreadthFirstSearch.Node(tents.state, tents.trees)
         solution = []
         queue.push(frontier)
-        count = 0
+
         while queue.empty() == False:
             
             frontier = queue.pop()
             state = frontier.state
-        
+            self.visited += [state]
             if tents.is_goal_state(state):
                 solution = state
                 break
@@ -185,7 +186,7 @@ class BreadthFirstSearch(SearchAlgo):
             for node in nodes:
                 if tents.is_legal_state(node.state):
                     queue.push(node)
-            count += 1
-        print(count)
+            
+        
         return solution
                            
