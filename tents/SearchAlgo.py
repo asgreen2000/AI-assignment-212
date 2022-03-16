@@ -125,7 +125,7 @@ class AStarSearch(SearchAlgo):
             
             frontier = open_queue.pop()
             state = frontier.state
-            
+            closed += [str(state)]
             if tents.is_goal_state(state):
                 return state
             
@@ -135,7 +135,7 @@ class AStarSearch(SearchAlgo):
                 str_state = str(node.state)
                 if closed.count(str_state) == 0:
                     open_queue.push(node)
-                    closed += [str_state]
+                    # closed += [str_state]
                 # because we are using priority queue built by Heap,
                 # so we don't need to carry about whether this node is in open_queue
                     
