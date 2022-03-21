@@ -30,6 +30,7 @@ class TrackNode:
                     if self.state[row_idx][col_idx] == Tents.UNSET:
 
                         res = []
+                        # type(self) = constructor of subtype
                         first_child = type(self)(self.state, self.trees)
                         first_child.tents_at(row_idx, col_idx)  
                         res += [first_child]
@@ -73,7 +74,10 @@ class AStarSearch(SearchAlgo):
             return count
         
         def cal_h_value(self):
-
+            
+            """One tent can not be used for two tree
+                so we need to track corresponding tree of tent
+            """
             tents_map = []
 
             for i in range(self.size):
@@ -94,7 +98,6 @@ class AStarSearch(SearchAlgo):
                 elif col_idx < self.size - 1 and self.state[row_idx][col_idx + 1] == Tents.TENT and tents_map[row_idx][col_idx + 1] != 1:
                     tents_map[row_idx][col_idx + 1] = 1
                 else:
-                   
                     count -= 1
             
             return len(self.trees) - count
@@ -108,6 +111,7 @@ class AStarSearch(SearchAlgo):
 
     def solve(self, tents):
         
+        # use compare function to sort queue
         open_queue = Util.PriorityQueue(self.compare)
         
         # track visited nodes
@@ -125,6 +129,7 @@ class AStarSearch(SearchAlgo):
             frontier = open_queue.pop()
             state = frontier.state
 
+            # add this node to visited list
             closed += [str(state)]
             if tents.is_goal_state(state):
                solution = state
@@ -145,11 +150,6 @@ class AStarSearch(SearchAlgo):
         return solution
 
 
-class DepthFirstSearch(SearchAlgo):
-    
-    def solve(self, tents):
-
-        pass
 
 
 class BreadthFirstSearch(SearchAlgo):

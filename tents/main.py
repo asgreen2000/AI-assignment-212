@@ -37,7 +37,7 @@ if __name__ == '__main__':
     
     tents = Tents(forest, row_const, col_const, n)
 
-    dfs = DepthFirstSearch()
+    # dfs = DepthFirstSearch()
     a_star = AStarSearch()
     bfs = BreadthFirstSearch()
 
