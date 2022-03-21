@@ -30,7 +30,7 @@ class TrackNode:
         return 0
 
 
-class BreadthFirstSearch(SearchAlgo):
+class HeuristicSearch(SearchAlgo):
 
     def solve(self, tents):
 

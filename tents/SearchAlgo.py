@@ -124,8 +124,7 @@ class AStarSearch(SearchAlgo):
             
             frontier = open_queue.pop()
             state = frontier.state
-      
-            self.visited += [state]
+
             closed += [str(state)]
             if tents.is_goal_state(state):
                solution = state
@@ -134,8 +133,8 @@ class AStarSearch(SearchAlgo):
             nodes = frontier.expand_node()
             
             for node in nodes:
-                str_state = str(node.state)
-                if tents.is_legal_state(node.state) and closed.count(str_state) == 0:
+                # str_state = str(node.state)
+                if tents.is_legal_state(node.state) and closed.count(node.state) == 0:
                     open_queue.push(node)
                     # closed += [str_state]
                 # because we are using priority queue built by Heap,
@@ -176,7 +175,7 @@ class BreadthFirstSearch(SearchAlgo):
             
             frontier = queue.pop()
             state = frontier.state
-            self.visited += [state]
+            
             if tents.is_goal_state(state):
                 solution = state
                 break
