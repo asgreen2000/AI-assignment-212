@@ -21,7 +21,7 @@ class Tents:
                 number = self.state[row_idx][col_idx]
                 if number == Tents.TREE:
                     self.trees += [[row_idx, col_idx]]
-        
+        # print(self.trees[0])
         return self.trees
 
     def can_have_tent_at(self, state, row_idx, col_idx):

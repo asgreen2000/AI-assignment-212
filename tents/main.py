@@ -22,15 +22,47 @@ if __name__ == '__main__':
     Each of the next line describes a row in grid
     """
 
-    fileName = "input.txt"
+    fileName = "input4.txt"
     input = readFile(DIR_PATH + fileName)
-    n = int(input[0][0])
-    
+    n = int(input[0])
+
     grid = functools.reduce(lambda res, cur: res + 
     [[int(i) for i in cur.split(' ')]]
     , input[1:], [])
     
     forest = grid[0 : n]
+
+    for x in range(8):
+        for y in range(8):
+            if forest[x][y]!=1:
+                if x>0 and x<7 and y>0 and y<7:
+                    if forest[x-1][y] !=1 and forest[x+1][y] !=1 and forest[x][y-1]!=1 and forest[x][y+1]!=1 :
+                        forest[x][y] =3;
+                elif x==0 and y>0 and y<7:
+                    if  forest[x+1][y] !=1 and forest[x][y-1]!=1 and forest[x][y+1]!=1 :
+                        forest[x][y] =3;
+                elif x==7 and y>0 and y<7:
+                    if  forest[x-1][y] !=1 and forest[x][y-1]!=1 and forest[x][y+1]!=1 :
+                        forest[x][y] =3;
+                elif x>0 and x<7 and y==0:
+                    if  forest[x-1][y] !=1 and forest[x+1][y]!=1 and forest[x][y+1]!=1 :
+                        forest[x][y] =3;
+                elif x>0 and x<7 and y==7:
+                    if  forest[x-1][y] !=1 and forest[x+1][y]!=1 and forest[x][y-1]!=1 :
+                        forest[x][y] =3;
+                elif x==0 and y==0:
+                    if forest[x+1][y] !=1 and forest[x][y+1]!=1:
+                        forest[x][y]=3;
+                elif x==0 and y==7:
+                    if forest[x+1][y] !=1 and forest[x][y-1]!=1:
+                        forest[x][y]=3;
+                elif x==7 and y==0:
+                    if forest[x-1][y] !=1 and forest[x][y+1]!=1:
+                        forest[x][y]=3;
+                elif x==7 and y==7:
+                    if forest[x-1][y] !=1 and forest[x][y-1]!=1:
+                        forest[x][y]=3;
+
     row_const = grid[n]
     col_const = grid[n + 1]
     
@@ -40,18 +72,20 @@ if __name__ == '__main__':
     a_star = AStarSearch()
     bfs = BreadthFirstSearch()
 
-    start = time.time()
-    solution = a_star.let_me_solve(tents)
-    end = time.time()
-    print("Time: ",end - start)
+    # start = time.time()
+    # solution = a_star.let_me_solve(tents)
+    # end = time.time()
+    # print("Time: ",end - start)
     
-    print("Solution: ",solution)
+    # print("Solution: ",solution)
 
     start = time.time()
-    solution = bfs.let_me_solve(tents)
+    # solution = bfs.solve(tents)
+    x = bfs.printPath(tents)
     end = time.time()
     print("Time: ",end - start)
     
-    print("Solution: ",solution)
+    # print("Solution: ",solution)
+
 
     

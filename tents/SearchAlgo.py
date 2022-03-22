@@ -13,7 +13,7 @@ class SearchAlgo:
 
 class TrackNode:
     def tents_at(self,row_idx, col_idx):
-            self.state[row_idx][col_idx] = Tents.TENT
+        self.state[row_idx][col_idx] = Tents.TENT
         
     def nothing_at(self, row_idx, col_idx):
         self.state[row_idx][col_idx] = Tents.NOTHING
@@ -28,6 +28,7 @@ class TrackNode:
 
                         res = []
                         first_child = type(self)(self.state, self.trees)
+
                         first_child.tents_at(row_idx, col_idx)  
                         res += [first_child]
                     
@@ -35,7 +36,6 @@ class TrackNode:
                         second_child.nothing_at(row_idx, col_idx)
                         
                         res += [second_child]
-
                         return res
             
             return []
@@ -119,6 +119,7 @@ class AStarSearch(SearchAlgo):
             
             frontier = open_queue.pop()
             state = frontier.state
+
             closed += [str(state)]
             if tents.is_goal_state(state):
                 return state
@@ -168,7 +169,7 @@ class BreadthFirstSearch(SearchAlgo):
             
             frontier = queue.pop()
             state = frontier.state
-        
+
             if tents.is_goal_state(state):
                 return state
             
@@ -177,7 +178,38 @@ class BreadthFirstSearch(SearchAlgo):
             for node in nodes:
                 if tents.is_legal_state(node.state):
                     queue.push(node)
-            
 
+
+            
         return []
-                           
+
+    def hasSolution( tents,node,arr):
+        if node.state == []:
+            return False  
+        arr.append(node.state)
+
+        if tents.is_goal_state(node.state):    
+            return True
+
+        frontier = BreadthFirstSearch.Node(node.state, node.trees)
+        nodes = frontier.expand_node()
+
+        for no in nodes:
+                if tents.is_legal_state(no.state):
+                    if BreadthFirstSearch.hasSolution(tents,no,arr):
+                        return True
+
+        arr.pop(-1)
+        return False  
+
+    def printPath(self,tents):
+        arr = []
+
+        if (BreadthFirstSearch.hasSolution( tents,tents, arr)):
+            for i in range(len(arr) ):
+                print("Step ",i+1," :")
+                print(arr[i])
+
+        
+        else:
+            print("No Solution")  
