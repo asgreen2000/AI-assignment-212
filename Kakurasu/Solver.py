@@ -1,3 +1,5 @@
+from ctypes import util
+from os import stat
 import Constant
 from Util import *
 
@@ -71,3 +73,17 @@ class Node:
                     nodes += [self.expand_at(row, col)]
 
         return nodes
+
+    def generate_steps(self):
+
+        state = create_square_list(Constant.UNSET, self.size)
+        res = []
+
+        res += [str_square_list(state, "\n")]
+
+        for pos in self.path:
+            state[pos[0]][pos[1]] = Constant.SET
+            
+            res += [str_square_list(state, "\n")]
+        
+        return res

@@ -18,9 +18,6 @@ class Kakurasu(Subscriber):
     def solve_by_dfs(self):
         self.solver = DepthFirstSearch()
         self.solution = self.solver.solve(self)
-        
-        if self.solution:
-            print(self.solution.state)
     
     def solve_by_bfs(self):
         self.solver = BreadthFirstSearch()
@@ -29,8 +26,15 @@ class Kakurasu(Subscriber):
     def solve_by_a_star(self):
         self.solver = AStarSearch()
         self.solution = self.solver.solve(self)
+
+    def generate_steps(self):
+        
+        res = []
+
         if self.solution:
-            print(self.solution.state)
+            res = self.solution.generate_steps()
+        return res
+
     def update_grid(self, row, col):
         pass
     

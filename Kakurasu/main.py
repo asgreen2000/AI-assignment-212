@@ -1,11 +1,28 @@
 from Kakurasu import *
 import pathlib
 import time
+import os
 # importing functools for reduce()
 import functools
+import Util
 
-DIR_PATH = str(pathlib.Path(__file__).parent.resolve()) + '\\'
+DIR_PATH = str(pathlib.Path(__file__).parent.resolve())
 
+
+class WriteSolution:
+
+    @staticmethod
+    def truncate_file(fileName):
+        file = open(fileName,"r+")
+        file.truncate(0)
+        file.close()
+
+    @staticmethod
+    def write(data, fileName):
+        WriteSolution.truncate_file(fileName)
+        f = open(fileName, "w")
+        f.write(data)
+        f.close()
 
 def readFile(fileName):
     scanner = open(fileName,"r")
@@ -21,7 +38,7 @@ if __name__ == '__main__':
     """
 
     fileName = "input.txt"
-    input = readFile(DIR_PATH + fileName)
+    input = readFile(os.path.join(DIR_PATH, fileName))
     size = int(input[0][0])
 
     row_const = [int(number) for number in input[1].split(' ')]
@@ -29,5 +46,9 @@ if __name__ == '__main__':
 
     kakurasu = Kakurasu(row_const, col_const, size)
 
-    kakurasu.solve_by_a_star()
+    kakurasu.solve_by_dfs()
+    steps = kakurasu.generate_steps()
+
+    WriteSolution.write(Util.print_steps(steps), "output.txt")
+
     
