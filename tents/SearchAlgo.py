@@ -17,28 +17,65 @@ class TrackNode:
         
     def nothing_at(self, row_idx, col_idx):
         self.state[row_idx][col_idx] = Tents.NOTHING
+    
+
+    def check_position_can_tent(self,row_idx,col_idx):
+        size = len(self.state) if self.state else 0
+
+        if row_idx>0 and row_idx<size-1 and col_idx>0 and col_idx<size-1:
+            if  self.state[row_idx-1][col_idx] ==1 or  self.state[row_idx+1][col_idx] ==1 or  self.state[row_idx][col_idx-1]==1 or self.state[row_idx][col_idx+1]==1 :
+                    return True
+        elif row_idx==0 and col_idx>0 and col_idx<size-1:
+            if   self.state[row_idx+1][col_idx] ==1 or  self.state[row_idx][col_idx-1]==1 or  self.state[row_idx][col_idx+1]==1 :
+                    return True
+        elif row_idx==size-1 and col_idx>0 and col_idx<size-1:
+            if   self.state[row_idx-1][col_idx] ==1 or  self.state[row_idx][col_idx-1]==1 or  self.state[row_idx][col_idx+1]==1 :
+                    return True
+        elif row_idx>0 and row_idx<size-1 and col_idx==0:
+            if   self.state[row_idx-1][col_idx] ==1 or  self.state[row_idx+1][col_idx]==1 or  self.state[row_idx][col_idx+1]==1 :
+                    return True
+        elif row_idx>0 and row_idx<size-1 and col_idx==size-1:
+            if   self.state[row_idx-1][col_idx] ==1 or  self.state[row_idx+1][col_idx]==1 or  self.state[row_idx][col_idx-1]==1 :
+                    return True
+        elif row_idx==0 and col_idx==0:
+            if  self.state[row_idx+1][col_idx] ==1 or  self.state[row_idx][col_idx+1]==1:
+                    return True
+        elif row_idx==0 and col_idx==size-1:
+            if  self.state[row_idx+1][col_idx] ==1 or  self.state[row_idx][col_idx-1]==1:
+                    return True
+        elif row_idx==size-1 and col_idx==0:
+            if  self.state[row_idx-1][col_idx] ==1 or  self.state[row_idx][col_idx+1]==1:
+                    return True
+        elif row_idx==size-1 and col_idx==size-1:
+            if  self.state[row_idx-1][col_idx] ==1 or  self.state[row_idx][col_idx-1]==1:
+                    return True
+        return False
 
     def expand_node(self):
 
             #find first UNSET cell
+            # print(self.state)
+            res = []
             size = len(self.state) if self.state else 0
             for row_idx in range(size):
                 for col_idx in range(size):
-                    if self.state[row_idx][col_idx] == Tents.UNSET:
 
-                        res = []
-                        first_child = type(self)(self.state, self.trees)
+                   
+                    if self.state[row_idx][col_idx] == Tents.UNSET and TrackNode.check_position_can_tent(self,row_idx,col_idx)==True:
+
+                        
+                        first_child = type(self)(self.state, self.trees,self.tents)
 
                         first_child.tents_at(row_idx, col_idx)  
                         res += [first_child]
                     
-                        second_child = type(self)(self.state, self.trees)
-                        second_child.nothing_at(row_idx, col_idx)
+                        # second_child = type(self)(self.state, self.trees,self.tents)
+                        # second_child.nothing_at(row_idx, col_idx)
                         
-                        res += [second_child]
-                        return res
+                        # res += [second_child]
+
             
-            return []
+            return res
 
 
 
@@ -46,14 +83,16 @@ class AStarSearch(SearchAlgo):
     
     class Node(TrackNode):
 
-        def __init__(self, state, trees):
+        def __init__(self, state,trees,tents):
             
             self.state = Util.deep_copy(state)
             self.trees = trees
+            self.tents=tents
             self.size = len(self.state)
             self.g_value = self.cal_g_value() # number of used tents
             self.h_value = self.cal_h_value() # number of tents need to be placed
             self.totcal_cost = self.g_value + self.h_value
+
 
 
         def get_total_cost(self):
@@ -70,7 +109,6 @@ class AStarSearch(SearchAlgo):
             return count
         
         def cal_h_value(self):
-
             tents_map = []
 
             for i in range(self.size):
@@ -96,6 +134,29 @@ class AStarSearch(SearchAlgo):
             
             return len(self.trees) - count
 
+        def h_func(self):
+            num=self.size*self.size- len(self.trees)
+            h_map=[]
+            h_map=Util.deep_copy(self.state)
+            for x in range(self.size):
+                for y in range(self.size):
+                    num_tent=0
+                    num_tree=0
+                    num_nth=0
+                    if self.state[x][y]  ==Tents.TENT:
+                        num_tent = num_tent+1
+                    if self.state[x][y]  ==Tents.TREE:
+                        num_tree = num_tree+1
+                    if self.tents.row_const[x]==num_tent:
+                        num_nth = self.size -num_tree-num_tent
+                    if self.tents.col_const[y] == num_tent:
+                        num_nth = self.size -num_tree-num_tent
+                    num =num -num_nth-num_tent
+
+            return num
+
+
+
 
             
     def compare(self, node_a, node_b):
@@ -111,7 +172,7 @@ class AStarSearch(SearchAlgo):
         state = tents.state
         trees = tents.trees
 
-        frontier = AStarSearch.Node(state, trees)
+        frontier = AStarSearch.Node(state, trees,tents)
 
         open_queue.push(frontier)
 
@@ -138,6 +199,8 @@ class AStarSearch(SearchAlgo):
         
         return []
 
+   
+
 
 class DepthFirstSearch(SearchAlgo):
     
@@ -150,9 +213,10 @@ class BreadthFirstSearch(SearchAlgo):
 
     class Node(TrackNode):
 
-        def __init__(self, state, trees):
+        def __init__(self, state, trees,tents):
             self.state = Util.deep_copy(state)
             self.trees = trees
+            self.tents=tents
 
      
     
@@ -161,7 +225,7 @@ class BreadthFirstSearch(SearchAlgo):
         queue = Util.Queue()
         state = tents.state
         size = tents.size
-        frontier = BreadthFirstSearch.Node(tents.state, tents.trees)
+        frontier = BreadthFirstSearch.Node(tents.state, tents.trees,tents)
 
         queue.push(frontier)
 
@@ -191,7 +255,7 @@ class BreadthFirstSearch(SearchAlgo):
         if tents.is_goal_state(node.state):    
             return True
 
-        frontier = BreadthFirstSearch.Node(node.state, node.trees)
+        frontier = BreadthFirstSearch.Node(node.state, node.trees,tents)
         nodes = frontier.expand_node()
 
         for no in nodes:
