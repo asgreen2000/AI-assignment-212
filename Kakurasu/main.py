@@ -38,7 +38,7 @@ if __name__ == '__main__':
     """
 
     fileName = "input.txt"
-    input = readFile(os.path.join(DIR_PATH, fileName))
+    input = readFile(os.path.join(DIR_PATH, 'input' ,fileName))
     size = int(input[0][0])
 
     row_const = [int(number) for number in input[1].split(' ')]
@@ -49,6 +49,6 @@ if __name__ == '__main__':
     kakurasu.solve_by_dfs()
     steps = kakurasu.generate_steps()
 
-    WriteSolution.write(Util.print_steps(steps), "output.txt")
+    WriteSolution.write(Util.print_steps(steps), os.path.join(DIR_PATH, 'output' ,"output.txt"))
 
     
