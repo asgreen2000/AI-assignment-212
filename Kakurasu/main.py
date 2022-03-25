@@ -2,8 +2,6 @@ from Kakurasu import *
 import pathlib
 import time
 import os
-# importing functools for reduce()
-import functools
 import Util
 
 DIR_PATH = str(pathlib.Path(__file__).parent.resolve())
