@@ -16,16 +16,16 @@ class BreadthFirstSearch(Solver):
 
         while queue.empty() == False:
             
-            top = queue.pop()
-            state = top.state
-            path = top.path
+            front = queue.pop()
+            state = front.state
+            path = front.path
  
             
             if binaro.is_goal_state(state):
-                solution = top
+                solution = front
                 break
 
-            nodes = top.expand_node()
+            nodes = front.expand_node()
 
             for node in nodes:
                 if binaro.is_legal_state(node.state):
