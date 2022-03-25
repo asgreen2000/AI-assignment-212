@@ -1,13 +1,28 @@
+
 from Tents import *
-from SearchAlgo import *
 import pathlib
 import time
-from GUI import GUI
-# importing functools for reduce()
+import os
+import Util
 import functools
 
-DIR_PATH = str(pathlib.Path(__file__).parent.resolve()) + '\\'
+DIR_PATH = str(pathlib.Path(__file__).parent.resolve())
 
+
+class WriteSolution:
+
+    @staticmethod
+    def truncate_file(fileName):
+        file = open(fileName,"r+")
+        file.truncate(0)
+        file.close()
+
+    @staticmethod
+    def write(data, fileName):
+        WriteSolution.truncate_file(fileName)
+        f = open(fileName, "w")
+        f.write(data)
+        f.close()
 
 def readFile(fileName):
     scanner = open(fileName,"r")
@@ -21,48 +36,40 @@ if __name__ == '__main__':
     n: first line of input, represent size of grid
     Each of the next line describes a row in grid
     """
+    for x in range(1,17):
+        fileName = "input" + str(x) +".txt"
+        input = readFile(os.path.join(DIR_PATH, 'input' ,fileName))
+        n = int(input[0])
 
-    fileName = "input4.txt"
-    input = readFile(DIR_PATH + fileName)
-    n = int(input[0])
+        grid = functools.reduce(lambda res, cur: res + [[int(i) for i in cur.split(' ')]], input[1:], [])
+        
+        forest = grid[0 : n]
 
-    grid = functools.reduce(lambda res, cur: res + 
-    [[int(i) for i in cur.split(' ')]]
-    , input[1:], [])
-    
-    forest = grid[0 : n]
-
-    row_const = grid[n]
-    col_const = grid[n + 1]
-    
-    tents = Tents(forest, row_const, col_const, n)
-
-    dfs = DepthFirstSearch()
-    a_star = AStarSearch()
-    bfs = BreadthFirstSearch()
-
-    start = time.time()
-    solution = a_star.let_me_solve(tents)
-    end = time.time()
-    print("Time a star: ",end - start)
-    
-    print("Solution: ",solution)
-
-    start = time.time()
-    # solution = bfs.solve(tents)
-    x = bfs.printPath(tents)
-    end = time.time()
-    print("Time pritnt path: ",end - start)
-    
-    # print("Solution: ",solution)
+        row_const = grid[n]
+        col_const = grid[n + 1]
+        
+        tents = Tents(forest, row_const, col_const, n)
+        start = time.time()
+        tents.solve_by_a_star()
+        end = time.time()
+        steps = tents.generate_steps()
+        result=""
+        result+="Time: "
+        result += str(end - start)
+        result+="\n"
+        result+=Util.print_steps(steps)
+        out="output"+str(x)+".txt"
+        WriteSolution.write(result, os.path.join(DIR_PATH, 'output' ,out))
 
     # start = time.time()
-    # solution = bfs.solve(tents)
-    # # x = bfs.printPath(tents)
+    # tents.solve_by_bfs()
     # end = time.time()
-    # print("Time bfs: ",end - start)
-    
-    # print("Solution: ",solution)
-
+    # steps = tents.generate_steps()
+    # result=""
+    # result+="Time: "
+    # result += str(end - start)
+    # result+="\n"
+    # result+=Util.print_steps(steps)
+    # WriteSolution.write(result, os.path.join(DIR_PATH, 'output' ,"output1.txt"))
 
     

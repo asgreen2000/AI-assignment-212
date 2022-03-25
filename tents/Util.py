@@ -1,4 +1,15 @@
+class Subscriber:
+    def receive_data(self, data):
+        pass
 
+
+
+def create_square_list(value, size):
+    
+    res = []
+    for i in range(size):
+        res += [[value] * size]
+    return res
 
 def deep_copy(l):
     new_list = []
@@ -8,6 +19,13 @@ def deep_copy(l):
     
     return new_list
 
+
+def str_square_list(l, sep):
+
+    res = ""
+    for row in l:
+        res += str(row) + sep
+    return res
 
 class CustomList:
     def __init__(self):
@@ -54,7 +72,15 @@ class Queue(CustomList):
         self.length -= 1
         return front
 
-    
+
+def print_steps(l):
+
+    size = len(l)
+    res = ""
+    for i in range(size):
+        res += "Step " + str(i) + ":\n" + l[i] + "\n"
+
+    return res
 
 class PriorityQueue(CustomList):
 
