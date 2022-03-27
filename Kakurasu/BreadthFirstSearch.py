@@ -5,31 +5,30 @@ from Util import *
 
 class BreadthFirstSearch(Solver):
     
-    def solve(self, binaro):
+    def solve(self, kakurasu):
         
         queue = Queue()
         solution = None
 
-        start = Node(binaro.grid, None, [])
+        start = Node(kakurasu.grid, kakurasu.row_const, kakurasu.col_const, [])
         
         queue.push(start)
 
         while queue.empty() == False:
             
             front = queue.pop()
-            state = front.state
-            path = front.path
+            # state = front.state
+            # # path = front.path
  
             
-            if binaro.is_goal_state(state):
+            if front.is_goal_state():
                 solution = front
                 break
 
             nodes = front.expand_node()
 
             for node in nodes:
-                if binaro.is_legal_state(node.state):
-                    queue.push(node)    
+                queue.push(node)    
 
         return solution
 

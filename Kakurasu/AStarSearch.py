@@ -13,24 +13,24 @@ class AStarSearch(Solver):
             super().__init__(state, row_const, col_const, path)
             self.g_value = self.calc_cost_root_to_current()
             self.h_value = self.calc_cost_current_to_goal()
-            self.totcal_cost = self.g_value + self.h_value
+            self.total_cost = self.g_value + self.h_value
         def calc_cost_root_to_current(self):
-            self.g_value = len(self.path)
-            return self.g_value
+            
+            return len(self.path)
         def calc_cost_current_to_goal(self):
-            self.h_value = 0
+            h_value = 0
 
             for i in range(self.size):
-                self.h_value += self.row_const[i]
-                self.h_value += self.col_const[i]
+                h_value += self.row_const[i]
+                h_value += self.col_const[i]
 
-            return self.h_value
+            return h_value
 
         def is_goal_state(self):
             return self.h_value == 0
 
     def compare(self, node_a, node_b):
-        return node_a.totcal_cost < node_b.totcal_cost
+        return node_a.total_cost <= node_b.total_cost
         # return node_a.totcal_cost <= node_b.totcal_cost
 
 
@@ -48,9 +48,9 @@ class AStarSearch(Solver):
             
             front = open_queue.pop()
             state = front.state
-            path = front.path
-                        
+            # path = front.path
             visited += [str(state)]
+
             if front.is_goal_state():
                 solution = front
                 break

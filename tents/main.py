@@ -5,7 +5,6 @@ import pathlib
 import time
 # importing functools for reduce()
 import functools
-import GameManager
 
 DIR_PATH = str(pathlib.Path(__file__).parent.resolve()) + '\\'
 
@@ -51,12 +50,12 @@ if __name__ == '__main__':
     
     print("Solution: ",solution)
 
-    start = time.time()
-    solution = bfs.let_me_solve(tents)
-    end = time.time()
-    print("Time: ",end - start)
+    # start = time.time()
+    # solution = bfs.let_me_solve(tents)
+    # end = time.time()
+    # print("Time: ",end - start)
     
-    print("Solution: ",solution)
+    # print("Solution: ",solution)
 
     # visited = []
     

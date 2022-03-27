@@ -26,6 +26,7 @@ class Kakurasu(Subscriber):
     def solve_by_a_star(self):
         self.solver = AStarSearch()
         self.solution = self.solver.solve(self)
+        
 
     def generate_steps(self):
         

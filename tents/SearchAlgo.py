@@ -123,7 +123,7 @@ class AStarSearch(SearchAlgo):
         frontier = AStarSearch.Node(state, trees)
 
         open_queue.push(frontier)
-        
+        count = 0
         while open_queue.empty() == False:
             
             frontier = open_queue.pop()

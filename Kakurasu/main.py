@@ -44,7 +44,7 @@ if __name__ == '__main__':
 
     kakurasu = Kakurasu(row_const, col_const, size)
 
-    kakurasu.solve_by_dfs()
+    kakurasu.solve_by_a_star()
     steps = kakurasu.generate_steps()
 
     WriteSolution.write(Util.print_steps(steps), os.path.join(DIR_PATH, 'output' ,"output.txt"))
