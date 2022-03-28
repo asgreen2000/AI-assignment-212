@@ -80,19 +80,14 @@ class Tents(Subscriber):
             return False
         if row_idx > 0 and col_idx < self.size - 1 and state[row_idx - 1][col_idx + 1] == Constant.TENT:
             return False
-        
         if row_idx < self.size - 1 and col_idx > 0 and state[row_idx + 1][col_idx - 1] == Constant.TENT:
-            return False
-
-        
+            return False        
         if row_idx > 0 and row_idx < self.size - 1 and col_idx < self.size - 1 and state[row_idx + 1][col_idx + 1] == Constant.TENT:
             return False
 
         return True
 
-    def is_legal_state(self, state):
-
-        
+    def is_legal_state(self, state):        
         for row_idx in range(self.size):
             for col_idx in range(self.size):
                 if state[row_idx][col_idx] == Constant.TENT:

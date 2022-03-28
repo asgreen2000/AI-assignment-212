@@ -58,6 +58,15 @@ class AStarSearch(Solver):
                     count -= 1
 
             return len(self.trees) - count
+
+        # def cal_h_value(self):
+
+        #     res=0
+        #     for x in range(self.size):
+        #         for y in range(self.size):
+        #             if self.tents.can_have_tent_at(self.state,x,y)==True:
+        #                 res+=1
+        #     return res
             
     def compare(self, node_a, node_b):
         return node_a.totcal_cost <= node_b.totcal_cost

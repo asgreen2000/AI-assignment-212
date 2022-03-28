@@ -1,4 +1,5 @@
 
+from re import fullmatch
 from Tents import *
 import pathlib
 import time
@@ -36,8 +37,36 @@ if __name__ == '__main__':
     n: first line of input, represent size of grid
     Each of the next line describes a row in grid
     """
+    # for x in range(1,17):
+    #     fileName = "input" + str(x) +".txt"
+    #     print(fileName)
+    #     input = readFile(os.path.join(DIR_PATH, 'input' ,fileName))
+    #     n = int(input[0])
+
+    #     grid = functools.reduce(lambda res, cur: res + [[int(i) for i in cur.split(' ')]], input[1:], [])
+        
+    #     forest = grid[0 : n]
+
+    #     row_const = grid[n]
+    #     col_const = grid[n + 1]
+        
+    #     tents = Tents(forest, row_const, col_const, n)
+    #     start = time.time()
+    #     tents.solve_by_a_star()
+    #     end = time.time()
+    #     steps = tents.generate_steps()
+    #     result=""
+    #     result+="Time: "
+    #     result += str(end - start)
+    #     result+="\n"
+    #     result+=Util.print_steps(steps)
+    #     out="output"+str(x)+".txt"
+    #     WriteSolution.write(result, os.path.join(DIR_PATH, 'output' ,out))
+
+
     for x in range(1,17):
         fileName = "input" + str(x) +".txt"
+        print(fileName)
         input = readFile(os.path.join(DIR_PATH, 'input' ,fileName))
         n = int(input[0])
 
@@ -50,7 +79,7 @@ if __name__ == '__main__':
         
         tents = Tents(forest, row_const, col_const, n)
         start = time.time()
-        tents.solve_by_a_star()
+        tents.solve_by_bfs()
         end = time.time()
         steps = tents.generate_steps()
         result=""
@@ -59,17 +88,7 @@ if __name__ == '__main__':
         result+="\n"
         result+=Util.print_steps(steps)
         out="output"+str(x)+".txt"
-        WriteSolution.write(result, os.path.join(DIR_PATH, 'output' ,out))
+        WriteSolution.write(result, os.path.join(DIR_PATH, 'output2' ,out))
 
-    # start = time.time()
-    # tents.solve_by_bfs()
-    # end = time.time()
-    # steps = tents.generate_steps()
-    # result=""
-    # result+="Time: "
-    # result += str(end - start)
-    # result+="\n"
-    # result+=Util.print_steps(steps)
-    # WriteSolution.write(result, os.path.join(DIR_PATH, 'output' ,"output1.txt"))
 
     

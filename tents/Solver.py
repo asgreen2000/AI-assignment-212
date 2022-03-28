@@ -29,73 +29,20 @@ class Node:
         
     def nothing_at(self, row_idx, col_idx):
         self.state[row_idx][col_idx] = Constant.NOTHING
-    
 
-    def check_neighbor(self,row_idx,col_idx,val):
-        size = len(self.state) 
-        if  self.state[row_idx][col_idx] ==val:
+    def check_neighbor(self,row_idx,col_idx):
+        val=0
+        if self.state[row_idx][col_idx] == Constant.TENT:
             return False
-        if row_idx>0 and row_idx<size-1 and col_idx>0 and col_idx<size-1:
-            if  self.state[row_idx-1][col_idx] ==val or  self.state[row_idx+1][col_idx] ==val or  self.state[row_idx][col_idx-1]==val or self.state[row_idx][col_idx+1]==val :
-                    return True
-        elif row_idx==0 and col_idx>0 and col_idx<size-1:
-            if   self.state[row_idx+1][col_idx] ==val or  self.state[row_idx][col_idx-1]==val or  self.state[row_idx][col_idx+1]==val :
-                    return True
-        elif row_idx==size-1 and col_idx>0 and col_idx<size-1:
-            if   self.state[row_idx-1][col_idx] ==val or  self.state[row_idx][col_idx-1]==val or  self.state[row_idx][col_idx+1]==val :
-                    return True
-        elif row_idx>0 and row_idx<size-1 and col_idx==0:
-            if   self.state[row_idx-1][col_idx] ==val or  self.state[row_idx+1][col_idx]==val or  self.state[row_idx][col_idx+1]==val :
-                    return True
-        elif row_idx>0 and row_idx<size-1 and col_idx==size-1:
-            if   self.state[row_idx-1][col_idx] ==val or  self.state[row_idx+1][col_idx]==val or  self.state[row_idx][col_idx-1]==1 :
-                    return True
-        elif row_idx==0 and col_idx==0:
-            if  self.state[row_idx+1][col_idx] ==val or  self.state[row_idx][col_idx+1]==val:
-                    return True
-        elif row_idx==0 and col_idx==size-1:
-            if  self.state[row_idx+1][col_idx] ==val or  self.state[row_idx][col_idx-1]==val:
-                    return True
-        elif row_idx==size-1 and col_idx==0:
-            if  self.state[row_idx-1][col_idx] ==val or  self.state[row_idx][col_idx+1]==val:
-                    return True
-        elif row_idx==size-1 and col_idx==size-1:
-            if  self.state[row_idx-1][col_idx] ==val or  self.state[row_idx][col_idx-1]==val:
-                    return True
-        return False
-
-    def check_can_tent(self,row_idx,col_idx,val):
-        size = len(self.state) 
-        if  self.state[row_idx][col_idx] ==val:
-            return False
-        if row_idx>0 and row_idx<size-1 and col_idx>0 and col_idx<size-1:
-            if  self.state[row_idx-1][col_idx] ==val or  self.state[row_idx+1][col_idx] ==val or  self.state[row_idx][col_idx-1]==val or self.state[row_idx][col_idx+1]==val or self.state[row_idx+1][col_idx+1]==val or self.state[row_idx-1][col_idx-1]==val or self.state[row_idx-1][col_idx+1]==val or self.state[row_idx+1][col_idx-1]==val :
-                    return False
-        elif row_idx==0 and col_idx>0 and col_idx<size-1:
-            if   self.state[row_idx+1][col_idx] ==val or  self.state[row_idx][col_idx-1]==val or  self.state[row_idx][col_idx+1]==val or self.state[row_idx+1][col_idx-1]==val or self.state[row_idx+1][col_idx+1]==val :
-                    return False
-        elif row_idx==size-1 and col_idx>0 and col_idx<size-1:
-            if   self.state[row_idx-1][col_idx] ==val or  self.state[row_idx][col_idx-1]==val or  self.state[row_idx][col_idx+1]==val  or self.state[row_idx-1][col_idx+1]==val or self.state[row_idx-1][col_idx-1]==val:
-                    return False
-        elif row_idx>0 and row_idx<size-1 and col_idx==0:
-            if   self.state[row_idx-1][col_idx] ==val or  self.state[row_idx+1][col_idx]==val or  self.state[row_idx][col_idx+1]==val  or self.state[row_idx-1][col_idx+1]==val or self.state[row_idx+1][col_idx+1]==val:
-                    return False
-        elif row_idx>0 and row_idx<size-1 and col_idx==size-1:
-            if   self.state[row_idx-1][col_idx] ==val or  self.state[row_idx+1][col_idx]==val or  self.state[row_idx][col_idx-1]==1  or self.state[row_idx-1][col_idx-1]==val or self.state[row_idx+1][col_idx-1]==val:
-                    return False
-        elif row_idx==0 and col_idx==0:
-            if  self.state[row_idx+1][col_idx] ==val or  self.state[row_idx][col_idx+1]==val  or self.state[row_idx+1][col_idx+1]==val:
-                    return False
-        elif row_idx==0 and col_idx==size-1:
-            if  self.state[row_idx+1][col_idx] ==val or  self.state[row_idx][col_idx-1]==val or self.state[row_idx+1][col_idx-1]==val:
-                    return False
-        elif row_idx==size-1 and col_idx==0:
-            if  self.state[row_idx-1][col_idx] ==val or  self.state[row_idx][col_idx+1]==val or self.state[row_idx-1][col_idx+1]==val:
-                    return False
-        elif row_idx==size-1 and col_idx==size-1:
-            if  self.state[row_idx-1][col_idx] ==val or  self.state[row_idx][col_idx-1]==val or self.state[row_idx-1][col_idx-1]==val:
-                    return False
-        return True
+        if row_idx > 0 and self.state[row_idx - 1][col_idx] == Constant.TREE  :
+            val+=1
+        if row_idx < self.size - 1 and self.state[row_idx + 1][col_idx] == Constant.TREE :
+            val+=1
+        if col_idx > 0 and self.state[row_idx][col_idx - 1] == Constant.TREE  :
+            val+=1
+        if col_idx < self.size - 1 and self.state[row_idx][col_idx + 1] == Constant.TREE :
+            val+=1
+        return val>0
 
     def expand_node(self):
 
@@ -105,7 +52,7 @@ class Node:
                 for col_idx in range(size):
 
                    
-                    if self.state[row_idx][col_idx] == Constant.UNSET and Node.check_neighbor(self,row_idx,col_idx,1)==True:                        
+                    if self.state[row_idx][col_idx] == Constant.UNSET and Node.check_neighbor(self,row_idx,col_idx)==True:                        
                         first_child = type(self)(self.state, self.trees,self.tents,self.path + [[row_idx, col_idx]])
 
                         first_child.tents_at(row_idx, col_idx)  
@@ -115,13 +62,13 @@ class Node:
 
     def generate_steps(self):
 
-        state = create_square_list(Constant.UNSET, self.size)
+        state = create_square_list('_', self.size)
         res = []
 
         res += [str_square_list(state, "\n")]
 
         for pos in self.path:
-            state[pos[0]][pos[1]] = Constant.TENT
+            state[pos[0]][pos[1]] = 'X'
             
             res += [str_square_list(state, "\n")]
         
