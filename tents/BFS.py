@@ -6,23 +6,22 @@ from Util import *
 class BreadthFirstSearch(Solver):
     
     def solve(self, tent):
-        
+        x=0
         queue = Queue()
         solution = None
         state = tent.state
         trees = tent.trees
         start = Node(state, trees,tent,[])
-        
         queue.push(start)
 
         while queue.empty() == False:
-            
+            x+=1
+
             top = queue.pop()
             state = top.state
-            path = top.path
- 
-            
+
             if tent.is_goal_state(state):
+                print(x)
                 solution = top
                 break
 

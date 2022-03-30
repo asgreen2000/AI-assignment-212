@@ -72,7 +72,7 @@ class Node:
             
             res += [str_square_list(state, "\n")]
         
-        return res
+        return res 
 
 
  

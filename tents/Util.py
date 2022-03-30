@@ -76,11 +76,13 @@ class Queue(CustomList):
 def print_steps(l):
 
     size = len(l)
-    res = ""
-    for i in range(size):
-        res += "Step " + str(i) + ":\n" + l[i] + "\n"
+    if (size >0):
+        res = ""
+        for i in range(size):
+            res += "Step " + str(i) + ":\n" + l[i] + "\n"
 
-    return res
+        return res
+    return "No Solution"
 
 class PriorityQueue(CustomList):
 

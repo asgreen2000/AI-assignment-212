@@ -96,14 +96,14 @@ class Tents(Subscriber):
         
         return True
 
-    def have_tents_beside(self, state, row_idx, col_idx):
-        if row_idx > 0 and state[row_idx - 1][col_idx] == Constant.TENT:
+    def have_beside(self, state, row_idx, col_idx,val):
+        if row_idx > 0 and state[row_idx - 1][col_idx] == val:
             return True
-        if row_idx < self.size - 1 and state[row_idx + 1][col_idx] == Constant.TENT:
+        if row_idx < self.size - 1 and state[row_idx + 1][col_idx] == val:
             return True
-        if col_idx > 0 and state[row_idx][col_idx - 1] == Constant.TENT:
+        if col_idx > 0 and state[row_idx][col_idx - 1] == val:
             return True
-        if col_idx < self.size - 1 and state[row_idx][col_idx + 1] == Constant.TENT:
+        if col_idx < self.size - 1 and state[row_idx][col_idx + 1] == val:
             return True
 
         return False
@@ -113,6 +113,9 @@ class Tents(Subscriber):
 
         row=[]
         col=[]
+        for tree in self.trees:
+            if self.have_beside(state,tree[0],tree[1],2)==False:
+                return False
         for i in self.row_const :
             row+=[i]
         for i in self.col_const :

@@ -14,14 +14,12 @@ class DepthFirstSearch(Solver):
         visited = []
 
         stack.push(start)
-        count = 0
+        
         while stack.empty() == False:
             
             top = stack.pop()
-            state = top.state
-            path = top.path
-            
-            count += 1
+            state = top.state          
+
             visited += [str(state)]
             if tent.is_goal_state(state):
                 solution = top
@@ -30,7 +28,7 @@ class DepthFirstSearch(Solver):
             nodes = top.expand_node()
 
             for node in nodes:
-                if visited.count(str(node.state)) == 0:
+                if tent.is_legal_state(node.state) and visited.count(str(node.state)) == 0:
                     stack.push(node)    
         
         return solution

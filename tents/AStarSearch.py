@@ -33,40 +33,63 @@ class AStarSearch(Solver):
 
             return count
         
-        def cal_h_value(self):
-            tents_map = []
+        # def cal_h_value(self):
+        #     tents_map = []
 
-            for i in range(self.size):
-                tents_map += [[0] * self.size]
+        #     for i in range(self.size):
+        #         tents_map += [[0] * self.size]
 
-            count = 0
+        #     count = 0
         
-            for tree in self.trees:
-                row_idx = tree[0]
-                col_idx = tree[1]
-                count += 1
-                if row_idx > 0 and self.state[row_idx - 1][col_idx] == Constant.TENT and tents_map[row_idx - 1][col_idx] != 1:
-                    tents_map[row_idx - 1][col_idx] = 1
-                elif row_idx < self.size - 1 and self.state[row_idx + 1][col_idx] == Constant.TENT and tents_map[row_idx + 1][col_idx] != 1:
-                    tents_map[row_idx + 1][col_idx] = 1
-                elif col_idx > 0 and self.state[row_idx][col_idx - 1] == Constant.TENT and tents_map[row_idx][col_idx - 1] != 1:
-                    tents_map[row_idx][col_idx - 1] = 1
-                elif col_idx < self.size - 1 and self.state[row_idx][col_idx + 1] == Constant.TENT and tents_map[row_idx][col_idx + 1] != 1:
-                    tents_map[row_idx][col_idx + 1] = 1
-                else:
+        #     for tree in self.trees:
+        #         row_idx = tree[0]
+        #         col_idx = tree[1]
+        #         count += 1
+        #         if row_idx > 0 and self.state[row_idx - 1][col_idx] == Constant.TENT and tents_map[row_idx - 1][col_idx] != 1:
+        #             tents_map[row_idx - 1][col_idx] = 1
+        #         elif row_idx < self.size - 1 and self.state[row_idx + 1][col_idx] == Constant.TENT and tents_map[row_idx + 1][col_idx] != 1:
+        #             tents_map[row_idx + 1][col_idx] = 1
+        #         elif col_idx > 0 and self.state[row_idx][col_idx - 1] == Constant.TENT and tents_map[row_idx][col_idx - 1] != 1:
+        #             tents_map[row_idx][col_idx - 1] = 1
+        #         elif col_idx < self.size - 1 and self.state[row_idx][col_idx + 1] == Constant.TENT and tents_map[row_idx][col_idx + 1] != 1:
+        #             tents_map[row_idx][col_idx + 1] = 1
+        #         else:
                    
-                    count -= 1
-
-            return len(self.trees) - count
+        #             count -= 1
+        #     return len(self.trees) - count
 
         # def cal_h_value(self):
 
         #     res=0
         #     for x in range(self.size):
         #         for y in range(self.size):
-        #             if self.tents.can_have_tent_at(self.state,x,y)==True:
+        #             if self.tents.can_have_tent_at(self.state,x,y)==True and self.state[x][y]!=1 and self.state[x][y]!=2 and self.tents.have_beside(self.state,x,y,1)==True:
         #                 res+=1
+
         #     return res
+
+        def cal_h_value(self):
+
+            col= self.col_const
+            row=self.row_const
+            res =0
+            for x in range(self.size):
+                tmp=0
+                for y in range(self.size):
+                    if self.tents.can_have_tent_at(self.state,x,y)==True and self.state[x][y]!=1 and self.state[x][y]!=2 and self.tents.have_beside(self.state,x,y,1)==True:
+                        tmp+=1 
+                if row[x]==tmp:
+                    res+=1
+            for x in range(self.size):
+                tmp=0
+                for y in range(self.size):
+                    if self.tents.can_have_tent_at(self.state,y,x)==True and self.state[y][x]!=1 and self.state[y][x]!=2 and self.tents.have_beside(self.state,y,x,1)==True:
+                        tmp+=1 
+                if col[x]==tmp:
+                    res+=1
+
+
+            return self.size*2-res
             
     def compare(self, node_a, node_b):
         return node_a.totcal_cost <= node_b.totcal_cost
@@ -83,7 +106,7 @@ class AStarSearch(Solver):
         open_queue.push(frontier)
 
         while open_queue.empty() == False:
-            
+
             frontier = open_queue.pop()
             state = frontier.state
             closed += [str(state)]
