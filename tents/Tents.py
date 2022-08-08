@@ -3,12 +3,38 @@ class Tents:
     TREE = 1
     TENT = 2
     NOTHING = 3
+    
+    def get_icon(self, value):
+        
+        if value == Tents.TENT:
+            # return "⛺"
+            return "TENT"
+        if value == Tents.TREE:
+            # return "🌳"
+            return "TREE"
+        if value == Tents.NOTHING:
+            return "NOT"
+
+        return ""
+
+    def get_all_icon(self, state):
+        res = []
+        for row in state:
+            cur = []
+            for number in row:
+                cur += [self.get_icon(number)]
+            
+            res += [cur]
+        
+        return res
+        
     def __init__(self, state, row_const, col_const, size):
         self.state = state
         self.row_const = row_const
         self.col_const = col_const
         self.size = size
         self.trees = self.generate_list_tree()
+        self.title = "Tents puzzle"
 
     def accept(self, solver):
         return solver.solve(self)

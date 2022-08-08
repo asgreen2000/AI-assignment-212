@@ -1,8 +1,8 @@
 from Tents import *
 from SearchAlgo import *
+from HeuristicSearch import HeuristicSearch
 import pathlib
 import time
-from GUI import GUI
 # importing functools for reduce()
 import functools
 
@@ -36,9 +36,12 @@ if __name__ == '__main__':
     
     tents = Tents(forest, row_const, col_const, n)
 
-    dfs = DepthFirstSearch()
+    # dfs = DepthFirstSearch()
     a_star = AStarSearch()
     bfs = BreadthFirstSearch()
+
+
+    
 
     start = time.time()
     solution = a_star.let_me_solve(tents)
@@ -47,11 +50,19 @@ if __name__ == '__main__':
     
     print("Solution: ",solution)
 
-    start = time.time()
-    solution = bfs.let_me_solve(tents)
-    end = time.time()
-    print("Time: ",end - start)
+    # start = time.time()
+    # solution = bfs.let_me_solve(tents)
+    # end = time.time()
+    # print("Time: ",end - start)
     
-    print("Solution: ",solution)
+    # print("Solution: ",solution)
 
+    # visited = []
     
+    # for state in a_star.visited:
+    #     visited += [tents.get_all_icon(state)]
+        
+
+    # game_manager = GameManager.GameManager(tents.title,tents.get_all_icon(tents.state), visited)
+    
+    # game_manager.display_all_data()
